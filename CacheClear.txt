@@ -7,4 +7,5 @@ dfsutil cache referral flush
 dfsutil cache domain flush
 dfsutil cache provider flush
 
-REM 待修改
+REM Clean Nettrace cache
+netsh trace start capture=yes report=disabled && netsh trace stop

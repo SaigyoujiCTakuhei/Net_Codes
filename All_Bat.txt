@@ -18,6 +18,15 @@ REM +++++++++++++++++++++++++++ STOP TRACE +++++++++++++++++++++++++++
 netsh trace stop
 
 tasklist /svc > C:\EtwTrace\tasklist_stop.txt
+ipconfig /all > C:\EtwTrace\ipconfig.txt
+netsh wfp show state
+netsh wfp show filters
+move .\wfpstate.xml C:\EtwTrace\wfpstate.xml
+move .\filters.xml C:\EtwTrace\filters.xml
+ipconfig /displaydns > C:\EtwTrace\dnscache.txt
+dfsutil cache referral > C:\EtwTrace\referral.txt
+dfsutil domain referral > C:\EtwTrace\domain.txt
+dfsutil provider referral > C:\EtwTrace\provider.txt
 
 @echo off
 echo Trace has stopped.

@@ -1,0 +1,34 @@
+REM +++++++++++++++++++++++++++ START TRACE +++++++++++++++++++++++++++
+mkdir C:\EtwTrace
+cd C:\EtwTrace
+
+netsh trace start capture=yes report=disabled && netsh trace stop
+netsh trace start capture=yes report=no tracefile=C:\EtwTrace\nettrace.etl maxsize=2048 overwrite=yes
+
+tasklist /svc > C:\EtwTrace\tasklist_start.txt
+
+@echo off
+echo Trace has started. Please reproduce the issue now.
+@echo on
+pause
+
+
+REM +++++++++++++++++++++++++++ STOP TRACE +++++++++++++++++++++++++++
+
+netsh trace stop
+
+tasklist /svc > C:\EtwTrace\tasklist_stop.txt
+ipconfig /all > C:\EtwTrace\ipconfig.txt
+netsh wfp show state
+netsh wfp show filters
+move .\wfpstate.xml C:\EtwTrace\wfpstate.xml
+move .\filters.xml C:\EtwTrace\filters.xml
+ipconfig /displaydns > C:\EtwTrace\dnscache.txt
+dfsutil cache referral > C:\EtwTrace\referral.txt
+dfsutil domain referral > C:\EtwTrace\domain.txt
+dfsutil provider referral > C:\EtwTrace\provider.txt
+
+@echo off
+echo Trace has stopped.
+@echo on
+pause

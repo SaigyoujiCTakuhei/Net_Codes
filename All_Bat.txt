@@ -29,6 +29,7 @@ dfsutil domain referral > C:\EtwTrace\domain.txt
 dfsutil provider referral > C:\EtwTrace\provider.txt
 klist > C:\EtwTrace\klist.txt
 klist -li 0x3e7 > C:\EtwTrace\klist_machine.txt
+msinfo32 /nfo C:\EtwTrace\msinfo.nfo /categories +systemsummary
 gpresult /h C:\EtwTrace\gpresult.htm
 fltmc filters > C:\EtwTrace\fltmc_filters.txt
 fltmc instances > C:\EtwTrace\fltmc_instances.txt

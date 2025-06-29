@@ -1,0 +1,80 @@
+Summary: 
+This article provides guidance on using the -CollectLog ADS_AccountLockout command to collect logs related to Account Lockout. It details the command's functionality, when to use it, and the types of data collected.
+
+Note: 
+If capturing component traces is unnecessary and only static data collection is required, the -CollectLog ADS_AccountLockout option can be utilized.
+
+-CollectLog ADS_AccountLockout
+
+Command
+.\TSS.ps1 -CollectLog ADS_AccountLockout
+
+Description
+The -CollectLog ADS_AccountLockout command is responsible for collecting logs related to Account Lockout.
+
+When to use this CollectLog
+Use the -CollectLog ADS_AccountLockout command when troubleshooting issues related to related to Account Lockout, such as:
+Problems with single user intermittent lockout.
+Issues with multiple users frequent Account lockout.
+To achieve optimal data collection, it is advised to utilize the -Scenario ADS_AccountLockout or -Scenario ADS_AccountLocoutEx options since trace data is not available in a CollectLog component.
+
+List of collected data
+Events Collected
+Application.evtx
+Security.evtx
+System.evtx
+Application.csv
+System.csv
+Application.txt
+System.txt
+
+Logs
+Isp.bak
+netlogon.bak
+FilesVersions_Collect_.csv
+GPresult- H_Collect.htm
+AuditPol_Collect.txt
+env.txt
+GPresuIt-R administrator Collect.txt
+GPresuIt-V administrator Collect.txt
+LBFo_Info_Collect.txt
+NetStat_Info_Collect.txt
+Processes_overview_Collect.txt
+Roles_Features_All.txt
+Roles_Features_Installed.txt
+SecEdit_Collect.txt
+Services_overview_Collect.txt
+SMB_Client_Info_Collect.txt
+SMB_Client_PScmdlets_Info_Collect.txt
+SMB_server_Net_Info_Collect.txt
+SMB_server_PScmdlet_Info_Collect.txt
+Isp.log
+netlogon.log
+
+Registry Keys Collected
+Reg_OIe_Collect_.txt REG.exe QUERY "HKEY_LOCAL_MACHINE\Software\Microsoft\Ole" /s
+Reg_Rpc_CoIIect_.txt
+REG.exe QUERY "HKEY_LOCAL_MACHINE\Software\Microsoft\Rpc" /s
+REG.exe QUERY "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\RpcEptMapper" /s
+REG.exe QUERY "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\RpcEptMapper" /s
+REG.exe QUERY "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\RpcLocator" /s
+REG.exe QUERY "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\RpcSs" /s
+REG.exe QUERY "HKLM:Software\Policies\Microsoft\Windows NT\Rpc" /s
+Reg_Tcp_Collect.txt
+REG.exe QUERY "HKLM:Software\Policies\Microsoft\Windows\TCPIP" /s
+REG.exe QUERY "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\TcpIp" /s
+REG.exe QUERY "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Tcpip6" /s
+REG.exe QUERY "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\tcpipreg" /s
+REG.exe QUERY "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\iphlpsvc" /s
+RegHive_Software.hiv
+RegHive_Software_User.hiv
+RegHive_System.hiv
+
+Helper Functions Invoked
+FwAddRegItem: Adds registry keys to be collected.
+FwExportRegistry: Exports specified registry keys.
+FwGetSMBserverInfo: Retrieves ProductType: LanmanNT - skip 'NET USER' on BDC or PDC information.
+FwGetGPresultAS: Retrieves Group Policy results.
+xRay report
+
+#

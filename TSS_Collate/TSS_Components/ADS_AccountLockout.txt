@@ -1,0 +1,33 @@
+Summary: 
+This document provides an overview of the ADS_AccountLockout component with tracing providers involved in data collection.
+-ADS_AccountLockout
+
+Command
+	.\TSS.ps1 -ADS_AccountLockout
+ 
+Description
+The -ADS_AccountLockout will collect KERB,NtLmCredSSP,KDC,SSL,LSA ETL log(s), Security EventLog component ETW tracing.
+ 
+When to use this component
+The -ADS_AccountLockout component can be used collect traces to diagnose frequent account lockout issues.
+These providers capture detailed information about Kerberos authentication, NTLM authentication, LSA etl, Netlogon logs, security events, Network traces.
+ 
+Scenarios collecting -ADS_AccountLockout component
+The following scenarios will collect -ADS_AccountLockout component:
+-Scenario ADS_AccountLockout
+-Scenario ADS_AccountLockoutEx
+ 
+Tracing providers collected
+To see which tracing providers are collected with ADS_AccountLockout component, please run the following TSS command:
+	.\TSS.ps1 -ListETWProviders ADS_AccountLockout
+ 
+Note:
+You can also look up collected provider GUIDs in the file __Log-Warn-Err-Info.txt during the TSS command-line.
+ 
+ADS_AccountLockout component include following components
+-ADS_Kerb
+-ADS_LSA
+-ADS_NtLmCredSSP
+-ADS_Kerb
+ 
+# 

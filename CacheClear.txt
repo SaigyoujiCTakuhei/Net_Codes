@@ -1,0 +1,11 @@
+REM Start Clean Cache
+REM Clean DNS Cache
+ipconfig /flushdns
+
+REM Clean DFS Cache
+dfsutil cache referral flush
+dfsutil cache domain flush
+dfsutil cache provider flush
+
+REM Clean Nettrace cache
+netsh trace start capture=yes report=disabled && netsh trace stop

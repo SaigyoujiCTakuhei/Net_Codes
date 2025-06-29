@@ -1,0 +1,70 @@
+REM +++++++++++++++++++++++++++ START TRACE +++++++++++++++++++++++++++
+mkdir C:\EtwTrace
+cd C:\EtwTrace
+
+netsh trace start capture=yes report=disabled && netsh trace stop
+netsh trace start capture=yes report=no tracefile=C:\EtwTrace\nettrace.etl maxsize=2048 overwrite=yes
+
+pktmon start -c --pkt-size 0 -f C:\EtwTrace\nettrace_pktmon.etl -s 2048 -m circular
+
+ipconfig /flushdns
+arp -d *
+dfsutil cache referral flush
+dfsutil cache domain flush
+dfsutil cache provider flush
+klist purge
+klist -li 0x3e7 purge
+klist -li 0x3e4 purge
+klist -li 0x3e5 purge
+tasklist /svc > C:\EtwTrace\tasklist_start.txt
+ipconfig /allcompartments /all > C:\EtwTrace\ipconfig_start.txt
+route print > C:\EtwTrace\route_start.txt
+ipconfig /displaydns > C:\EtwTrace\dnscache_start.txt
+arp -a > C:\EtwTrace\arpcache_start.txt
+dfsutil cache referral > C:\EtwTrace\dfsnreferral_start.txt
+dfsutil cache domain > C:\EtwTrace\dfsnreferral_start.txt
+dfsutil cache provider > C:\EtwTrace\dfsnreferral_start.txt
+
+@echo off
+echo Trace has started. Please reproduce the issue now.
+@echo on
+
+pause
+::-----END SCRIPT-----
+
+::-----BEGIN SCRIPT-----
+netsh trace stop
+
+pktmon stop
+pktmon comp list -a > C:\EtwTrace\pktmon_comp.txt
+
+tasklist /svc > C:\EtwTrace\tasklist_stop.txt
+ipconfig /allcompartments /all > C:\EtwTrace\ipconfig_stop.txt
+route print > C:\EtwTrace\route_stop.txt
+ipconfig /displaydns > C:\EtwTrace\dnscache_stop.txt
+arp -a > C:\EtwTrace\arpcache_stop.txt
+dfsutil cache referral > C:\EtwTrace\dfsnreferral_stop.txt
+dfsutil cache domain > C:\EtwTrace\dfsnreferral_stop.txt
+dfsutil cache provider > C:\EtwTrace\dfsnreferral_stop.txt
+msinfo32 / nfo C:\EtwTrace\msinfo.nfo / categories + systemsummary
+systeminfo > C:\EtwTrace\systeminfo.txt
+netsh wfp show state
+netsh wfp show filters
+move .\wfpstate.xml C:\EtwTrace\wfpstate.xml
+move .\filters.xml C:\EtwTrace\filters.xml
+klist > C:\EtwTrace\klist_user_stop.txt
+klist -li 0x3e7 > C:\EtwTrace\klist_system_stop.txt
+klist -li 0x3e4 > C:\EtwTrace\klist_netsvc_stop.txt
+klist -li 0x3e5 > C:\EtwTrace\klist_localsvc_stop.txt
+gpresult /h C:\EtwTrace\gpresult.html
+fltmc > C:\EtwTrace\fltmc.txt
+fltmc instances > C:\EtwTrace\fltmc_instances.txt
+wmic qfe list > C:\EtwTrace\hotfix.txt
+xcopy %SystemRoot%\System32\winevt\Logs C:\EtwTrace\EventLogs /E /C /H /I /Y
+
+@echo off
+echo Trace has been stopped! Please zip and upload the trace folder...
+@echo on
+
+pause
+::-----END SCRIPT-----

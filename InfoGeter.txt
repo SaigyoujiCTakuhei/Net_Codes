@@ -1,0 +1,56 @@
+REM Strat get PC information
+REM Get Tasklist
+tasklist /svc > C:\EtwTrace\tasklist_start.txt
+
+REM Get system information
+msinfo32 /nfo C:\EtwTrace\msinfo.nfo /categories +systemsummary
+
+REM Get GPO
+gpresult /h C:\EtwTrace\gpresult.htm
+
+REM Get IP information
+ipconfig /all > C:\EtwTrace\ipconfig.txt
+
+REM Get WFP information
+netsh wfp show state
+netsh wfp show filters
+move .\wfpstate.xml C:\EtwTrace\wfpstate.xml
+move .\filters.xml C:\EtwTrace\filters.xml
+
+REM Get FLTMC information
+fltmc filters > C:\EtwTrace\fltmc_filters.txt
+fltmc instances > C:\EtwTrace\fltmc_instances.txt
+
+REM Get DNS cache
+ipconfig /displaydns > C:\EtwTrace\dnscache.txt
+
+REM Get klist
+klist > C:\EtwTrace\klist.txt
+
+REM Get installed patch
+wmic qfe list > C:\EtwTrace\hotfix.txt
+
+REM Get DFS cache
+dfsutil cache referral > C:\EtwTrace\referral.txt
+dfsutil domain referral > C:\EtwTrace\domain.txt
+dfsutil provider referral > C:\EtwTrace\provider.txt
+
+REM Get system klist
+klist -li 0x3e7 > C:\EtwTrace\klist_machine.txt
+
+REM Get all system logs
+xcopy %WINDIR%\System32\winevt\Logs C:\EtwTrace\EventLogs /E /C /I
+
+REM Get HTTP information
+netsh http show servicestate > C:\TCPTrace\http_state.txt
+netsh http show sslcert > C:\TCPTrace\http_sslcert.txt
+netsh http show iplisten > C:\TCPTrace\http_iplisten.txt
+netsh http show urlacl > C:\TCPTrace\http_urlacl.txt
+
+REM Get NCSI information
+reg EXPORT "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings" C:\NcsiTrace\UserInetSettings.reg
+reg EXPORT "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings" C:\NcsiTrace\MachineInetSettings.reg
+
+REM Get DHCP information
+xcopy %WINDIR%\System32\dhcp C:\DhcpServerTrace\dhcp /E /C /I
+PowerShell.exe -NoProfile -Command "Export-DhcpServer -File C:\DhcpServerTrace\DHCP_Export.xml"
